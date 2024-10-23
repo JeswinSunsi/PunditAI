@@ -1,5 +1,5 @@
 <template>
-    <div class="main">
+    <div class="main" id="features">
         <div class="title">Comprehensive Answers, Simplified</div>
         <div class="subtitle">Transform a single prompt into <span style="font-weight: 600;"> comprehensive, creative,
                 and data-rich

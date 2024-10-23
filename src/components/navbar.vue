@@ -2,21 +2,29 @@
     <div class="main">
         <img src="../assets/logo.png" alt="Pundit AI">
         <div class="flex-wrap-1">
-            <div class="item">
-                <h1>Product</h1>
-                <img src="../assets/southArrow.png" alt="Navigate to Link">
-            </div>
-            <div class="item">
-                <h1>Features</h1>
-                <img src="../assets/southArrow.png" alt="Navigate to Link">
-            </div>
-            <div class="item">
-                <h1>Pricing</h1>
-                <img src="../assets/southArrow.png" alt="Navigate to Link">
-            </div>
-            <div class="item">
-                <h1>Github</h1>
-            </div>
+            <a href="#features">
+                <div class="item">
+                    <h1>Product</h1>
+                    <img src="../assets/southArrow.png" alt="Navigate to Link">
+                </div>
+            </a>
+            <a href="#product">
+                <div class="item">
+                    <h1>Features</h1>
+                    <img src="../assets/southArrow.png" alt="Navigate to Link">
+                </div>
+            </a>
+            <a href="#pricing">
+                <div class="item">
+                    <h1>Pricing</h1>
+                    <img src="../assets/southArrow.png" alt="Navigate to Link">
+                </div>
+            </a>
+            <a href="https://github.com/jeswinsunsi/punditai" target="_blank">
+                <div class="item">
+                    <h1>Github</h1>
+                </div>
+            </a>
         </div>
         <div class="flex-wrap-2">
             <div class="btn">

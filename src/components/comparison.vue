@@ -4,11 +4,11 @@
             <!-- eslint-disable -->
 
             <figure slot="first" class="before">
-                <img width="100%" src="../assets/pundit.png">
+                <img width="100%" src="../assets/pundit.png" alt="Existing LLMs">
                 <figcaption>Existing LLMs</figcaption>
             </figure>
             <figure slot="second" class="after">
-                <img width="100%" src="../assets/gemini.png">
+                <img width="100%" src="../assets/gemini.png" alt="With Pundit AI">
                 <figcaption>With Pundit AI</figcaption>
             </figure>
             <!-- eslint-enable -->

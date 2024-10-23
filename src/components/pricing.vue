@@ -1,5 +1,5 @@
 <template>
-    <div class="main">
+    <div class="main" id="pricing">
         <h1 class="heading">Pricing</h1>
         <div class="main-wrapper">
             <div class="partition" style="margin-right: 1rem;">
@@ -13,22 +13,22 @@
                     <div class="line"></div>
                 </div>
                 <div class="feature-wrapper">
-                    <img src="../assets/check.png">
+                    <img src="../assets/check.png" alt="checkbox-ticked">
                     <h3 class="feature">Instant Access</h3>
                 </div>
                 <div class="feature-wrapper">
-                    <img src="../assets/check.png">
+                    <img src="../assets/check.png" alt="checkbox-ticked">
                     <h3 class="feature">3 Prompts Free</h3>
                 </div>
                 <div class="feature-wrapper">
-                    <img src="../assets/check.png">
+                    <img src="../assets/check.png" alt="checkbox-ticked">
                     <h3 class="feature">Experience PRO for Free for 24 Hours</h3>
                 </div>
             </div>
             <div class="partition">
                 <h2 class="price">PRO</h2>
                 <h1 class="amount">₹49.00<span style="font-weight: 400; font-size: 0.9rem;">/month</span></h1>
-                <h3 class="point">Best for users needing unlimited access to Pundit AI's features</h3>
+                <h3 class="point">Best for users ready to access Pundit AI's full feature-set</h3>
                 <div class="btn">Sign up with Professional</div>
                 <div class="flex-wrapper">
                     <div class="line"></div>
@@ -36,19 +36,19 @@
                     <div class="line"></div>
                 </div>
                 <div class="feature-wrapper">
-                    <img src="../assets/check.png">
+                    <img src="../assets/check.png" alt="checkbox-ticked">
                     <h3 class="feature">Full Access</h3>
                 </div>
                 <div class="feature-wrapper">
-                    <img src="../assets/check.png">
+                    <img src="../assets/check.png" alt="checkbox-ticked">
                     <h3 class="feature">50 Prompts / day</h3>
                 </div>
                 <div class="feature-wrapper">
-                    <img src="../assets/check.png">
+                    <img src="../assets/check.png" alt="checkbox-ticked">
                     <h3 class="feature">No Rate Limiting</h3>
                 </div>
                 <div class="feature-wrapper">
-                    <img src="../assets/check.png">
+                    <img src="../assets/check.png" alt="checkbox-ticked">
                     <h3 class="feature">Instant File Download</h3>
                 </div>
             </div>
@@ -63,23 +63,23 @@
                     <div class="line"></div>
                 </div>
                 <div class="feature-wrapper">
-                    <img src="../assets/check.png">
+                    <img src="../assets/check.png" alt="checkbox-ticked">
                     <h3 class="feature">Unlimited Access</h3>
                 </div>
                 <div class="feature-wrapper">
-                    <img src="../assets/check.png">
+                    <img src="../assets/check.png" alt="checkbox-ticked">
                     <h3 class="feature">Unlimited Prompts</h3>
                 </div>
                 <div class="feature-wrapper">
-                    <img src="../assets/check.png">
+                    <img src="../assets/check.png" alt="checkbox-ticked">
                     <h3 class="feature">No Rate Limiting</h3>
                 </div>
                 <div class="feature-wrapper">
-                    <img src="../assets/check.png">
+                    <img src="../assets/check.png" alt="checkbox-ticked">
                     <h3 class="feature">Instant File Downloads</h3>
                 </div>
                 <div class="feature-wrapper">
-                    <img src="../assets/check.png">
+                    <img src="../assets/check.png" alt="checkbox-ticked">
                     <h3 class="feature">Custom Chat Support</h3>
                 </div>
             </div>

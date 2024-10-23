@@ -1,12 +1,12 @@
 <template>
-    <div class="main">
+    <div class="main" id="product">
         <div class="title">From Prompt to Pages in Seconds</div>
         <div class="subtitles">
             <div class="subtitle">Instantaneous Response <span style="font-weight: 700; font-size: 1.2rem;">·</span>
             </div>
-            <div class="subtitle">Directly download reports & documents <span
+            <div class="subtitle">Directly download generated reports & documents <span
                     style="font-weight: 700; font-size: 1.2rem;">·</span></div>
-            <div class="subtitle">A pricing for every user <span style="font-weight: 700; font-size: 1.2rem;">·</span>
+            <div class="subtitle">Flexible pricing <span style="font-weight: 700; font-size: 1.2rem;">·</span>
             </div>
             <div class="subtitle">Open source & self-deployable on Github <span
                     style="font-weight: 700; font-size: 1.2rem;">·</span>
