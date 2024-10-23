@@ -56,7 +56,7 @@
                 <h2 class="price">ENTERPRISE</h2>
                 <h1 class="amount">₹149.00<span style="font-weight: 400; font-size: 0.9rem;">/month</span></h1>
                 <h3 class="point">Best for large teams needing constant access to Pundit AI's entire feature-set</h3>
-                <div class="btn">Start for Free</div>
+                <div class="btn">Access Enterprise now</div>
                 <div class="flex-wrapper">
                     <div class="line"></div>
                     <h3 class="features">FEATURES</h3>
@@ -176,5 +176,24 @@
     margin-top: 1rem;
     font-weight: 600;
     font-size: 2rem;
+}
+
+@media only screen and (max-width: 600px) {
+    .main-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .partition {
+        height: 30rem;
+        width: 100%;
+        padding: 2rem 1rem;
+        margin-left: 0rem !important;
+        margin-bottom: 1.5rem;
+    }
+
+    .main {
+        padding: 0rem 2rem;
+    }
 }
 </style>
