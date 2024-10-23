@@ -55,4 +55,14 @@
     background-color: #130540;
     color: #fff;
 }
+
+@media only screen and (max-width: 600px) {
+    .title {
+        width: 80vw;
+    }
+
+    .subtitle {
+        width: 80vw;
+    }
+}
 </style>
