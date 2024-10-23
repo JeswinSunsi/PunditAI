@@ -93,9 +93,7 @@ img {
 }
 
 @media only screen and (max-width: 600px) {
-    .flex-wrap-2 div:first-child {
-        display: none;
-    }
+
 
     .flex-wrap-1 {
         display: none;

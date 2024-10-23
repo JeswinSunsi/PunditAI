@@ -73,4 +73,11 @@ export default {
 .after figcaption {
     right: 12px;
 }
+
+@media only screen and (max-width: 600px) {
+    .slider {
+        width: 90%;
+        outline: none;
+    }
+}
 </style>
