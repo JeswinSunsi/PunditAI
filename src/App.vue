@@ -2,12 +2,10 @@
 import Hero from './components/hero.vue'
 import Navbar from './components/navbar.vue';
 import Comparison from './components/comparison.vue';
-import Template1 from './components/template1.vue';
-import Template2 from './components/template2.vue';
+import TextBlock1 from './components/textBlock1.vue';
+import TextBlock2 from './components/textBlock2.vue';
 import Pricing from './components/pricing.vue';
 import Footer from './components/footer.vue';
-
-
 </script>
 
 <template>
@@ -15,9 +13,9 @@ import Footer from './components/footer.vue';
     <Navbar />
     <Hero />
     <Comparison />
-    <Template2 />
+    <TextBlock2 />
     <Pricing />
-    <Template1 />
+    <TextBlock1 />
     <Footer />
   </div>
 </template>
