@@ -31,4 +31,10 @@ a {
     margin-right: 0.3rem;
     margin-left: 0.3rem;
 }
+
+@media only screen and (max-width: 600px) {
+    a {
+        font-size: 0.8rem;
+    }
+}
 </style>
