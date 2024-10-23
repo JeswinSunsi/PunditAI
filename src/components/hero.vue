@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <h1 class="hero-heading">Answers that go the distance</h1>
+    <h1 class="hero-heading">Answers that go the distance </h1>
     <h2 class="hero-subheading">Generate 10,000+ words from a single prompt, designed for thinkers & creators.
     </h2>
     <div class="flex-wrap-2">
@@ -63,5 +63,22 @@
   color: #130540;
   border: solid 1px #130540;
   background-color: #fff;
+}
+
+@media only screen and (max-width: 600px) {
+  .hero-heading {
+    font-size: 2.5rem;
+    padding: 0rem 1rem;
+    line-height: 3rem;
+    margin-bottom: 2rem;
+  }
+
+  .hero-subheading {
+    font-size: 1.2rem;
+    color: rgba(19, 5, 64, 0.8);
+    text-align: center;
+    width: 90vw;
+    line-height: 1.5rem;
+  }
 }
 </style>
