@@ -1,9 +1,9 @@
 <template>
     <div class="main">
         <div class="prompt-box" ref="autoResizeDiv">
-            <textarea v-model="text" class="prompt-input" placeholder="Ask Pundit AI" @input="resizeTextarea"
+            <textarea v-model="promptContent" class="prompt-input" placeholder="Ask Pundit AI" @input="resizeTextarea"
                 ref="autoResizeTextArea"></textarea>
-            <img src="../assets/write.gif" alt="enter" class="icon" v-show="isIconAnimated" @click="sendPrompt">
+            <img src="../assets/write.gif" alt="enter" class="icon" v-show="isIconAnimated">
             <img src="../assets/write.png" alt="enter" class="icon" v-show="!isIconAnimated" @click="sendPrompt">
         </div>
         <div class="response-box" v-if="responseText">
@@ -17,8 +17,8 @@
 import { ref, onMounted } from 'vue';
 
 let isIconAnimated = ref(false);
-const text = ref(""); // Stores the text
-const responseText = ref(""); // To store the response from the fetch request
+const promptContent = ref("");
+const responseText = ref("");
 const autoResizeTextArea = ref(null);
 const autoResizeDiv = ref(null)
 
@@ -33,23 +33,39 @@ const resizeTextarea = () => {
     }
 };
 
-const sendPrompt = () => {
+const sendPrompt = async () => {
+    isIconAnimated.value = true;
     fetch('http://localhost:8000/query', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ prompt: text.value })
+        body: JSON.stringify({ prompt: promptContent.value })
     })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            responseText.value = data.response.data;
+        .then(response => {
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let result = '';
+
+            const readStream = () => {
+                reader.read().then(({ done, value }) => {
+                    if (done) {
+                        isIconAnimated.value = false;
+                        return;
+                    }
+
+                    result += decoder.decode(value, { stream: true });
+                    responseText.value = result;
+                    readStream();
+                });
+            };
+
+            readStream();
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => { console.error('Error:', error); isIconAnimated.value = false; });
 };
 
-onMounted(resizeTextarea); // Initial resizing
+onMounted(resizeTextarea); // Reize textarea initially
 </script>
 
 <style scoped>
