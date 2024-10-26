@@ -6,6 +6,29 @@ import TextBlock1 from './components/textBlock1.vue';
 import TextBlock2 from './components/textBlock2.vue';
 import Pricing from './components/pricing.vue';
 import Footer from './components/footer.vue';
+
+import { ref, onMounted } from 'vue'
+
+const vFadeIn = {
+  mounted: (el) => {
+    el.style.opacity = '0'
+    el.style.transform = 'translateY(20px)'
+    el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out'
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          el.style.opacity = '1'
+          el.style.transform = 'translateY(0)'
+          observer.unobserve(el)
+        }
+      })
+    }, {
+      threshold: 0.3
+    })
+    observer.observe(el)
+  }
+}
 </script>
 
 <template>
@@ -13,9 +36,9 @@ import Footer from './components/footer.vue';
     <Navbar />
     <Hero />
     <Comparison />
-    <TextBlock2 />
-    <Pricing />
-    <TextBlock1 />
+    <TextBlock2 v-fade-in />
+    <Pricing v-fade-in />
+    <TextBlock1 v-fade-in />
     <Footer />
   </div>
 </template>
@@ -26,6 +49,11 @@ body {
   height: 100%;
   width: 100%;
   background-color: #FBFAFE;
+}
+
+html {
+  scroll-padding-top: 5rem;
+  scroll-behavior: smooth;
 }
 </style>
 
