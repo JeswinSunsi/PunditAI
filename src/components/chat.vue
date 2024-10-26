@@ -6,6 +6,20 @@
             <img src="../assets/write.gif" alt="enter" class="icon" v-show="isIconAnimated">
             <img src="../assets/write.png" alt="enter" class="icon" v-show="!isIconAnimated" @click="sendPrompt">
         </div>
+        <span class="placeholder-content fade-into-view" ref="placeholderContent" v-if="isPlaceholderVisible">
+            <h1 class="placeholder-title">Hi, what can I help you with?</h1>
+            <div class="placeholder-idea" @click="promptContent = 'Generate a essay on the evolution of LLMs'">Generate
+                a
+                essay on the evolution of LLMs</div>
+            <div class="placeholder-idea"
+                @click="promptContent = 'Produce an report on the current geopolitical landscape'">Produce an report on
+                the current geopolitical landscape</div>
+            <div class="placeholder-idea"
+                @click="promptContent = 'Write an article about the history of medieval trade routes between Asia & Europe'">
+                Write an article about the history of medieval trade routes between Asia &
+                Europe
+            </div>
+        </span>
         <div class="response-box" v-if="responseText">
             <p v-html="responseText">
             </p>
@@ -21,6 +35,7 @@ const promptContent = ref("");
 const responseText = ref("");
 const autoResizeTextArea = ref(null);
 const autoResizeDiv = ref(null)
+const isPlaceholderVisible = ref(true)
 
 const resizeTextarea = () => {
     const textarea = autoResizeTextArea.value;
@@ -47,7 +62,7 @@ const sendPrompt = async () => {
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
             let result = '';
-
+            isPlaceholderVisible.value = false;
             const readStream = () => {
                 reader.read().then(({ done, value }) => {
                     if (done) {
@@ -66,6 +81,16 @@ const sendPrompt = async () => {
         .catch(error => { console.error('Error:', error); isIconAnimated.value = false; });
 };
 
+
+const placeholderContent = ref(null)
+
+onMounted(() => {
+    setTimeout(() => {
+        placeholderContent.value.style.opacity = '1'
+    }, 1)
+})
+
+
 onMounted(resizeTextarea); // Reize textarea initially
 </script>
 
@@ -78,6 +103,38 @@ onMounted(resizeTextarea); // Reize textarea initially
     align-items: center;
     padding: 1rem 1rem;
     font-family: Poppins;
+}
+
+.fade-into-view {
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.placeholder-content {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.placeholder-idea {
+    cursor: pointer;
+    color: rgba(19, 5, 64, 0.8);
+    border: 1px solid rgba(19, 5, 64, 0.2);
+    border-radius: 0.3rem;
+    padding: 0.8rem 1rem;
+    width: 40vw;
+    line-height: 1.3rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.placeholder-title {
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    font-weight: 500;
+    color: #130540;
 }
 
 .response-box {
