@@ -35,7 +35,8 @@ const resizeTextarea = () => {
 
 const sendPrompt = async () => {
     isIconAnimated.value = true;
-    fetch('http://localhost:8000/query', {
+    responseText.value = null
+    fetch('https://pundit-1e15.onrender.com/query', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -115,6 +116,7 @@ onMounted(resizeTextarea); // Reize textarea initially
     height: 2.5rem;
     width: 90%;
     font-family: Poppins;
+    scrollbar-width: none;
 }
 
 /* Hide scrollbar */
@@ -128,7 +130,17 @@ onMounted(resizeTextarea); // Reize textarea initially
     height: 0;
 }
 
-.prompt-input {
-    scrollbar-width: none;
+@media only screen and (max-width: 600px) {
+    .main {
+        padding: 1rem 0rem;
+    }
+
+    .prompt-box {
+        width: 85%;
+    }
+
+    .response-box {
+        width: 80%;
+    }
 }
 </style>

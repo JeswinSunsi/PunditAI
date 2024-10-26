@@ -5,7 +5,9 @@
     </h2>
     <div class="flex-wrap-2">
       <div class="btn">
-        <h1 class="btn-1">Try for free</h1>
+        <RouterLink to="/chat">
+          <h1 class="btn-1">Try for free</h1>
+        </RouterLink>
       </div>
       <div class="btn">
         <a href="#pricing">
