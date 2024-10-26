@@ -1,13 +1,11 @@
 <script setup>
 import Navbar from './components/navbar.vue'
-import Chat from './components/chat.vue';
-
 </script>
 
 <template>
   <div class="container">
     <Navbar />
-    <Chat />
+    <RouterView />
   </div>
 </template>
 
