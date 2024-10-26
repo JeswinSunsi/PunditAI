@@ -34,7 +34,9 @@
                 <h1 class="btn-1">Login</h1>
             </div>
             <div class="btn">
-                <h1 class="btn-2">Try for free</h1>
+                <RouterLink to="/chat">
+                    <h1 class="btn-2">Try for free</h1>
+                </RouterLink>
             </div>
         </div>
     </div>
@@ -109,8 +111,6 @@ img {
 }
 
 @media only screen and (max-width: 600px) {
-
-
     .flex-wrap-1 {
         display: none;
     }

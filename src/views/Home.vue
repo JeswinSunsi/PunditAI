@@ -1,11 +1,10 @@
 <script setup>
-import Hero from './components/hero.vue'
-import Navbar from './components/navbar.vue';
-import Comparison from './components/comparison.vue';
-import TextBlock1 from './components/textBlock1.vue';
-import TextBlock2 from './components/textBlock2.vue';
-import Pricing from './components/pricing.vue';
-import Footer from './components/footer.vue';
+import Hero from '../components/hero.vue'
+import Comparison from '../components/comparison.vue';
+import TextBlock1 from '../components/textBlock1.vue';
+import TextBlock2 from '../components/textBlock2.vue';
+import Pricing from '../components/pricing.vue';
+import Footer from '../components/footer.vue';
 
 const vFadeIn = {
     mounted: (el) => {
@@ -31,7 +30,6 @@ const vFadeIn = {
 
 <template>
     <div class="container">
-        <Navbar />
         <Hero />
         <Comparison />
         <TextBlock2 v-fade-in />
