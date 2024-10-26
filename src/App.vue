@@ -24,5 +24,6 @@ body {
 html {
   scroll-padding-top: 5rem;
   scroll-behavior: smooth;
+  overflow-y: scroll;
 }
 </style>
