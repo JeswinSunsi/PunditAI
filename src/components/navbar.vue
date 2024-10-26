@@ -1,6 +1,7 @@
 <template>
     <div class="main">
         <img src="../assets/logo.png" alt="Pundit AI">
+        <!--
         <div class="flex-wrap-1">
             <a href="#features">
                 <div class="item">
@@ -26,6 +27,8 @@
                 </div>
             </a>
         </div>
+        -->
+        <h1 class="chat-title flex-wrap-1">New Chat</h1>
         <div class="flex-wrap-2">
             <div class="btn">
                 <h1 class="btn-1">Login</h1>
@@ -42,11 +45,6 @@
 </script>
 
 <style scoped>
-img {
-    cursor: pointer;
-    height: 2rem;
-}
-
 .main {
     display: flex;
     justify-content: space-between;
@@ -59,6 +57,16 @@ img {
     position: sticky;
     z-index: 100;
     top: 0;
+}
+
+img {
+    cursor: pointer;
+    height: 2rem;
+}
+
+.chat-title {
+    font-weight: 700;
+    font-size: 1.2rem;
 }
 
 .flex-wrap-1 {
