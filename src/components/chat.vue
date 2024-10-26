@@ -107,7 +107,7 @@ onMounted(resizeTextarea); // Reize textarea initially
 
 .fade-into-view {
     opacity: 0;
-    transition: opacity 1s ease;
+    transition: opacity 1.3s ease;
 }
 
 .placeholder-content {
@@ -198,6 +198,14 @@ onMounted(resizeTextarea); // Reize textarea initially
 
     .response-box {
         width: 80%;
+    }
+
+    .placeholder-title {
+        text-align: center;
+    }
+
+    .placeholder-idea {
+        width: 80vw;
     }
 }
 </style>
