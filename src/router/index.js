@@ -4,8 +4,8 @@ import HomeView from '../views/Home.vue'
 import ChatView from '../components/chat.vue'
 
 const routes = [
-    { path: '/', component: HomeView },
-    { path: '/chat', component: ChatView },
+    { name: 'Home', path: '/', component: HomeView },
+    { name: 'Chat', path: '/chat', component: ChatView },
 ]
 
 const router = createRouter({

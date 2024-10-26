@@ -1,8 +1,9 @@
 <template>
     <div class="main">
-        <img src="../assets/logo.png" alt="Pundit AI">
-        <!--
-        <div class="flex-wrap-1">
+        <RouterLink to="/">
+            <img src="../assets/logo.png" alt="Pundit AI">
+        </RouterLink>
+        <div class="flex-wrap-1" v-if="$route.name === 'Home'">
             <a href="#features">
                 <div class="item">
                     <h1>Product</h1>
@@ -27,8 +28,8 @@
                 </div>
             </a>
         </div>
-        -->
-        <h1 class="chat-title flex-wrap-1">New Chat</h1>
+
+        <h1 class="chat-title flex-wrap-1" v-if="$route.name === 'Chat'">New Chat</h1>
         <div class="flex-wrap-2">
             <div class="btn">
                 <h1 class="btn-1">Login</h1>

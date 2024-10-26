@@ -4,12 +4,12 @@
             <!-- eslint-disable -->
 
             <figure slot="first" class="before">
-                <img width="100%" src="../assets/pundit.png" alt="Existing LLMs">
-                <figcaption>Existing LLMs</figcaption>
+                <img width="100%" src="../assets/pundit.png" alt="With Pundit AI">
+                <figcaption>With Pundit AI</figcaption>
             </figure>
             <figure slot="second" class="after">
-                <img width="100%" src="../assets/gemini.png" alt="With Pundit AI">
-                <figcaption>With Pundit AI</figcaption>
+                <img width="100%" src="../assets/gemini.png" alt="Other LLMs">
+                <figcaption>Other LLMs</figcaption>
             </figure>
             <!-- eslint-enable -->
         </ImgComparisonSlider>
