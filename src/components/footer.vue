@@ -32,7 +32,7 @@ a {
     margin-left: 0.3rem;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 740px) {
     a {
         font-size: 0.8rem;
     }

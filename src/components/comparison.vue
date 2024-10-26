@@ -74,7 +74,7 @@ export default {
     right: 12px;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 740px) {
     .slider {
         width: 90%;
         outline: none;

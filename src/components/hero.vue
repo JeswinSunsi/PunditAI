@@ -69,7 +69,7 @@
   background-color: #fff;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 740px) {
   .hero-heading {
     font-size: 2.5rem;
     padding: 0rem 1rem;

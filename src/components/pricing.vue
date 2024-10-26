@@ -178,7 +178,7 @@
     font-size: 2rem;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 740px) {
     .main-wrapper {
         display: flex;
         flex-direction: column;

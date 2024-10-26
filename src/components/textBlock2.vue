@@ -56,7 +56,7 @@
     color: #fff;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 740px) {
     .title {
         width: 80vw;
     }

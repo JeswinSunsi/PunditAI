@@ -130,7 +130,7 @@ onMounted(resizeTextarea); // Reize textarea initially
     height: 0;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 740px) {
     .main {
         padding: 1rem 0rem;
     }
