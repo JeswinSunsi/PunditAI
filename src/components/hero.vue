@@ -8,7 +8,9 @@
         <h1 class="btn-1">Try for free</h1>
       </div>
       <div class="btn">
-        <h1 class="btn-2">View Pricing</h1>
+        <a href="#pricing">
+          <h1 class="btn-2">View Pricing</h1>
+        </a>
       </div>
     </div>
   </div>
