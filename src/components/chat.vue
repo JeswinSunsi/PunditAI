@@ -8,11 +8,11 @@
         </div>
         <span class="placeholder-content fade-into-view" ref="placeholderContent" v-if="isPlaceholderVisible">
             <h1 class="placeholder-title">Hi, what can I help you with?</h1>
-            <div class="placeholder-idea" @click="promptContent = 'Generate a essay on the evolution of LLMs'">Generate
-                a
+            <div class="placeholder-idea" @click="promptContent = 'Generate an essay on the evolution of LLMs'">Generate
+                an
                 essay on the evolution of LLMs</div>
             <div class="placeholder-idea"
-                @click="promptContent = 'Produce an report on the current geopolitical landscape'">Produce an report on
+                @click="promptContent = 'Produce a report on the current geopolitical landscape'">Produce a report on
                 the current geopolitical landscape</div>
             <div class="placeholder-idea"
                 @click="promptContent = 'Write an article about the history of medieval trade routes between Asia & Europe'">
