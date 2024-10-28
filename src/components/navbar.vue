@@ -34,11 +34,11 @@
             <div class="btn">
                 <h1 class="btn-1">Login</h1>
             </div>
-            <div class="btn">
-                <RouterLink to="/chat">
+            <RouterLink to="/chat">
+                <div class="btn" style="background-color: #130540; color: #fff;">
                     <h1 class="btn-2">Try for free</h1>
-                </RouterLink>
-            </div>
+                </div>
+            </RouterLink>
         </div>
     </div>
 </template>
@@ -101,8 +101,6 @@ img {
     cursor: pointer;
     margin-right: 0.6rem;
     border-radius: 0.3rem;
-    background-color: #130540;
-    color: #fff;
 }
 
 .flex-wrap-2 div:first-child {
