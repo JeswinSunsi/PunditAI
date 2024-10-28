@@ -24,7 +24,7 @@
             <div class="fixed-btn" @click="copyToClipboard">
                 <img src="../assets/copy.png" alt="Copy" class="icon">
             </div>
-            <div class="fixed-btn">
+            <div class="fixed-btn" @click="generatePDF">
                 <img src="../assets/download.png" alt="Copy" class="icon">
             </div>
         </div>
@@ -44,6 +44,35 @@ const autoResizeTextArea = ref(null);
 const autoResizeDiv = ref(null)
 const promptContent = ref("");
 const responseText = ref("");
+
+import { jsPDF } from 'jspdf'
+
+const generatePDF = async () => {
+    try {
+        const doc = new jsPDF()
+        doc.setFontSize(12)
+
+        if (!responseText.value) {
+            throw new Error('Content element not found')
+        }
+
+        doc.html(responseText.value, {
+            callback: function (doc) {
+                doc.save("pundit.pdf")
+            },
+            x: 15,
+            y: 15,
+            html2canvas: {
+                scale: 0.25
+            },
+            autoPaging: 'text',
+            width: 100,
+            windowWidth: 700
+        })
+    } catch (error) {
+        console.error('Error generating PDF:', error)
+    }
+}
 
 function copyToClipboard() {
     navigator.clipboard.writeText(responseText.value)
@@ -122,7 +151,7 @@ onMounted(() => {
 
 .fixed-elements {
     position: fixed;
-    top: 28.2vh;
+    top: 29.2vh;
     transform: translateX(31.3vw);
 }
 
