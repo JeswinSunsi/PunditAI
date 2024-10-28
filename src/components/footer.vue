@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        Made with ☕ & 💖 by <a href="https://github.com/jeswinsunsi" target="_blank">Team Meltdowm</a>
+        Made with ☕ & 💖 by <a href="https://github.com/jeswinsunsi" target="_blank">Team Meltdown</a>
     </div>
 </template>
 
