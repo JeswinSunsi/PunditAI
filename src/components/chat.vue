@@ -3,8 +3,8 @@
         <div class="prompt-box" ref="autoResizeDiv">
             <textarea v-model="promptContent" class="prompt-input" placeholder="Ask Pundit AI" @input="resizeTextarea"
                 ref="autoResizeTextArea"></textarea>
-            <img src="../assets/write.gif" alt="enter" class="icon" v-show="isIconAnimated">
-            <img src="../assets/write.png" alt="enter" class="icon" v-show="!isIconAnimated" @click="sendPrompt">
+            <img src="../assets/write.gif" alt="enter" class="enter-icon" v-show="isIconAnimated">
+            <img src="../assets/write.png" alt="enter" class="enter-icon" v-show="!isIconAnimated" @click="sendPrompt">
         </div>
         <span class="placeholder-content fade-into-view" ref="placeholderContent" v-if="isPlaceholderVisible">
             <h1 class="placeholder-title">Hi, what can I help you with?</h1>
@@ -20,6 +20,14 @@
                 Europe
             </div>
         </span>
+        <div class="fixed-elements" v-if="responseText">
+            <div class="fixed-btn" @click="copyToClipboard">
+                <img src="../assets/copy.png" alt="Copy" class="icon">
+            </div>
+            <div class="fixed-btn">
+                <img src="../assets/download.png" alt="Copy" class="icon">
+            </div>
+        </div>
         <div class="response-box" v-if="responseText">
             <p v-html="responseText">
             </p>
@@ -30,12 +38,16 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
-let isIconAnimated = ref(false);
-const promptContent = ref("");
-const responseText = ref("");
+const isIconAnimated = ref(false);
+const isPlaceholderVisible = ref(true)
 const autoResizeTextArea = ref(null);
 const autoResizeDiv = ref(null)
-const isPlaceholderVisible = ref(true)
+const promptContent = ref("");
+const responseText = ref("");
+
+function copyToClipboard() {
+    navigator.clipboard.writeText(responseText.value)
+}
 
 const resizeTextarea = () => {
     const textarea = autoResizeTextArea.value;
@@ -47,6 +59,7 @@ const resizeTextarea = () => {
         divarea.style.height = `${textarea.scrollHeight + 20}px`;
     }
 };
+onMounted(resizeTextarea); // Resize textarea initially
 
 const sendPrompt = async () => {
     isIconAnimated.value = true;
@@ -67,6 +80,7 @@ const sendPrompt = async () => {
                 reader.read().then(({ done, value }) => {
                     if (done) {
                         isIconAnimated.value = false;
+                        console.log("object");
                         return;
                     }
 
@@ -75,23 +89,19 @@ const sendPrompt = async () => {
                     readStream();
                 });
             };
-
             readStream();
         })
         .catch(error => { console.error('Error:', error); isIconAnimated.value = false; });
 };
 
 
-const placeholderContent = ref(null)
 
+const placeholderContent = ref(null)
 onMounted(() => {
     setTimeout(() => {
         placeholderContent.value.style.opacity = '1'
     }, 1)
 })
-
-
-onMounted(resizeTextarea); // Reize textarea initially
 </script>
 
 <style scoped>
@@ -108,6 +118,30 @@ onMounted(resizeTextarea); // Reize textarea initially
 .fade-into-view {
     opacity: 0;
     transition: opacity 1.3s ease;
+}
+
+.fixed-elements {
+    position: fixed;
+    top: 28.2vh;
+    transform: translateX(31.3vw);
+}
+
+.fixed-btn {
+    width: 2.7rem;
+    border: 1px solid #cac1e8;
+    background-color: #fff;
+    cursor: pointer;
+    padding: 0.5rem 0.8rem;
+    border-radius: 0.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.icon {
+    height: 1rem;
+}
+
+.fixed-btn:hover {
+    background-color: #eae7f1;
 }
 
 .placeholder-content {
@@ -147,7 +181,7 @@ onMounted(resizeTextarea); // Reize textarea initially
     line-height: 1.7rem;
 }
 
-.icon {
+.enter-icon {
     height: 1.7rem;
     margin-top: 0.5rem;
     cursor: pointer;
@@ -206,6 +240,11 @@ onMounted(resizeTextarea); // Reize textarea initially
 
     .placeholder-idea {
         width: 80vw;
+    }
+
+    .fixed-elements {
+        top: 13.3rem;
+        margin-left: 3vw;
     }
 }
 </style>
