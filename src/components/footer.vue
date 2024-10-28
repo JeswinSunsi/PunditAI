@@ -1,7 +1,6 @@
 <template>
     <div class="main">
-        Made with ☕ & 💖 by <a href="https://github.com/jeswinsunsi" target="_blank">Jezwin Sunsi</a>&<a
-            href="https://github.com/Aashin20" target="_blank">Aashin Anil</a>
+        Made with ☕ & 💖 by <a href="https://github.com/jeswinsunsi" target="_blank">Team Meltdowm</a>
     </div>
 </template>
 
