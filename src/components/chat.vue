@@ -93,7 +93,7 @@ onMounted(resizeTextarea); // Resize textarea initially
 const sendPrompt = async () => {
     isIconAnimated.value = true;
     responseText.value = null
-    fetch('https://pundit-1e15.onrender.com/query', {
+    fetch('http://localhost:8000', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
