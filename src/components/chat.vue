@@ -92,36 +92,27 @@ onMounted(resizeTextarea); // Resize textarea initially
 
 const sendPrompt = async () => {
     isIconAnimated.value = true;
-    responseText.value = null
-    fetch('http://localhost:8000', {
+    responseText.value = null;
+
+    fetch('http://localhost:8000/query', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ prompt: promptContent.value })
     })
-        .then(response => {
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder();
-            let result = '';
+        .then(response => response.json())
+        .then(data => {
+            isIconAnimated.value = false;
             isPlaceholderVisible.value = false;
-            const readStream = () => {
-                reader.read().then(({ done, value }) => {
-                    if (done) {
-                        isIconAnimated.value = false;
-                        console.log("object");
-                        return;
-                    }
-
-                    result += decoder.decode(value, { stream: true });
-                    responseText.value = result;
-                    readStream();
-                });
-            };
-            readStream();
+            responseText.value = data.content;
         })
-        .catch(error => { console.error('Error:', error); isIconAnimated.value = false; });
+        .catch(error => {
+            console.error('Error:', error);
+            isIconAnimated.value = false;
+        });
 };
+
 
 
 
