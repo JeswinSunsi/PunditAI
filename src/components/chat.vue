@@ -48,7 +48,11 @@ const autoResizeDiv = ref(null)
 const promptContent = ref("");
 const responseParts = ref([]);
 
-mermaid.initialize({ startOnLoad: false });  // Initialize mermaid without auto-loading
+mermaid.initialize({
+    startOnLoad: false,
+    securityLevel: 'loose',  // sometimes necessary to allow inline styles/scripts
+    theme: 'forest'  // replace with any theme name from the list
+});  // Initialize mermaid without auto-loading
 
 const generatePDF = async () => {
     try {
@@ -94,7 +98,7 @@ onMounted(resizeTextarea); // Resize textarea initially
 const sendPrompt = async () => {
     isIconAnimated.value = true;
     responseParts.value = [];  // Reset parts array
-    fetch('https://pundit-1e15.onrender.com/query', {
+    fetch('http://localhost:8000/query', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
