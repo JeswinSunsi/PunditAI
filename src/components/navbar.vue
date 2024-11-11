@@ -31,9 +31,12 @@
 
         <h1 class="chat-title flex-wrap-1" v-if="$route.name === 'Chat'">New Chat</h1>
         <div class="flex-wrap-2">
-            <div class="btn">
-                <h1 class="btn-1">Login</h1>
-            </div>
+            <RouterLink to="/login">
+
+                <div class="btn">
+                    <h1 class="btn-1">Login</h1>
+                </div>
+            </RouterLink>
             <RouterLink to="/chat">
                 <div class="btn" style="background-color: #130540; color: #fff;">
                     <h1 class="btn-2">Try for free</h1>
