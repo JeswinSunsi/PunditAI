@@ -9,18 +9,16 @@
         <span class="placeholder-content fade-into-view" ref="placeholderContent" v-if="isPlaceholderVisible">
             <h1 class="placeholder-title">Hi, what can I help you with?</h1>
             <div class="placeholder-idea" @click="promptContent = 'Generate an essay on the evolution of LLMs'">Generate
-                an
-                essay on the evolution of LLMs</div>
+                an essay on the evolution of LLMs</div>
             <div class="placeholder-idea"
                 @click="promptContent = 'Produce a report on the current geopolitical landscape'">Produce a report on
                 the current geopolitical landscape</div>
             <div class="placeholder-idea"
                 @click="promptContent = 'Write an article about the history of medieval trade routes between Asia & Europe'">
-                Write an article about the history of medieval trade routes between Asia &
-                Europe
+                Write an article about the history of medieval trade routes between Asia & Europe
             </div>
         </span>
-        <div class="fixed-elements" v-if="responseText">
+        <div class="fixed-elements" v-if="responseParts.length">
             <div class="fixed-btn" @click="copyToClipboard">
                 <img src="../assets/copy.png" alt="Copy" class="icon">
             </div>
@@ -28,54 +26,57 @@
                 <img src="../assets/download.png" alt="Copy" class="icon">
             </div>
         </div>
-        <div class="response-box" v-if="responseText">
-            <p v-html="responseText">
-            </p>
+        <div class="response-box" v-if="responseParts.length">
+            <template v-for="(part, index) in responseParts" :key="index">
+                <p v-if="part.type === 'text'" v-html="part.content"></p>
+                <div v-if="part.type === 'mermaid'" class="mermaid mermaid-diagram" stye="margin-bottom: 1rem;">{{
+                    part.content }}</div>
+            </template>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, nextTick } from 'vue';
+import { jsPDF } from 'jspdf'
+import mermaid from 'mermaid'
 
 const isIconAnimated = ref(false);
 const isPlaceholderVisible = ref(true)
 const autoResizeTextArea = ref(null);
 const autoResizeDiv = ref(null)
 const promptContent = ref("");
-const responseText = ref("");
+const responseParts = ref([]);
 
-import { jsPDF } from 'jspdf'
+mermaid.initialize({ startOnLoad: false });  // Initialize mermaid without auto-loading
 
 const generatePDF = async () => {
     try {
         const doc = new jsPDF()
         doc.setFontSize(12)
 
-        if (!responseText.value) {
+        if (!responseParts.value.length) {
             throw new Error('Content element not found')
         }
 
-        doc.html(responseText.value, {
-            callback: function (doc) {
-                doc.save("pundit.pdf")
-            },
-            x: 15,
-            y: 15,
-            html2canvas: {
-                scale: 0.25
-            },
-            autoPaging: 'text',
-            width: 100,
-            windowWidth: 700
-        })
+        const responseTextContent = responseParts.value
+            .filter(part => part.type === 'text')
+            .map(part => part.content)
+            .join('\n')
+
+        doc.text(responseTextContent, 10, 10)
+        doc.save("pundit.pdf")
     } catch (error) {
         console.error('Error generating PDF:', error)
     }
 }
 
 function copyToClipboard() {
-    navigator.clipboard.writeText(responseText.value)
+    const responseTextContent = responseParts.value
+        .filter(part => part.type === 'text')
+        .map(part => part.content)
+        .join('\n')
+    navigator.clipboard.writeText(responseTextContent)
 }
 
 const resizeTextarea = () => {
@@ -92,7 +93,7 @@ onMounted(resizeTextarea); // Resize textarea initially
 
 const sendPrompt = async () => {
     isIconAnimated.value = true;
-    responseText.value = null
+    responseParts.value = [];  // Reset parts array
     fetch('http://localhost:8000/query', {
         method: 'POST',
         headers: {
@@ -104,7 +105,8 @@ const sendPrompt = async () => {
         .then(data => {
             isIconAnimated.value = false;
             isPlaceholderVisible.value = false;
-            responseText.value = data.content;
+            console.log(data.content[0])
+            processResponse(data.content[0]);
         })
         .catch(error => {
             console.error('Error:', error);
@@ -112,8 +114,39 @@ const sendPrompt = async () => {
         });
 };
 
+const processResponse = async (content) => {
+    if (typeof content !== 'string') {
+        console.error('Invalid response content');
+        return;
+    }
 
+    const parts = [];
+    const regex = /```mermaid\s+([\s\S]*?)\s+```/g;
+    let lastIndex = 0;
 
+    let match;
+    while ((match = regex.exec(content)) !== null) {
+        if (match.index > lastIndex) {
+            parts.push({ type: 'text', content: content.substring(lastIndex, match.index) });
+        }
+        parts.push({ type: 'mermaid', content: match[1] });
+        console.log(match[1]);
+        lastIndex = regex.lastIndex;
+    }
+
+    if (lastIndex < content.length) {
+        parts.push({ type: 'text', content: content.substring(lastIndex) });
+    }
+
+    responseParts.value = parts;
+    await renderMermaidDiagrams();
+};
+
+const renderMermaidDiagrams = async () => {
+    await nextTick();
+    // Render all diagrams with the 'mermaid' class in the DOM
+    mermaid.run(undefined, '.mermaid-diagram');
+};
 
 const placeholderContent = ref(null)
 onMounted(() => {
