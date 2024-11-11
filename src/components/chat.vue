@@ -92,9 +92,8 @@ onMounted(resizeTextarea); // Resize textarea initially
 
 const sendPrompt = async () => {
     isIconAnimated.value = true;
-    responseText.value = null;
-
-    fetch('http://localhost:8000/query', {
+    responseText.value = null
+    fetch('http://localhost:8000', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
