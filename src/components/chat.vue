@@ -97,6 +97,7 @@ const resizeTextarea = () => {
 onMounted(resizeTextarea); // Resize textarea initially
 
 const sendPrompt = async () => {
+    autoResizeTextArea.value.blur()
     isIconAnimated.value = true;
     responseParts.value = [];  // Reset parts array
     fetch('http://localhost:8000/query', {
@@ -126,21 +127,32 @@ const processResponse = async (content) => {
     }
 
     const parts = [];
-    const regex = /```mermaid\s+([\s\S]*?)\s+```/g;
+    const mermaidRegex = /```mermaid\s+([\s\S]*?)\s+```/g;
     let lastIndex = 0;
 
+    // First, handle Mermaid blocks
     let match;
-    while ((match = regex.exec(content)) !== null) {
+    while ((match = mermaidRegex.exec(content)) !== null) {
+        // Process text before the Mermaid block, including *+ replacement
         if (match.index > lastIndex) {
-            parts.push({ type: 'text', content: content.substring(lastIndex, match.index) });
+            const textBeforeMermaid = content
+                .substring(lastIndex, match.index)
+                .replace(/(\* |- |• )/g, '<br/><br/>');
+            parts.push({ type: 'text', content: textBeforeMermaid });
         }
+
+        // Add the Mermaid block without modifying its content
         parts.push({ type: 'mermaid', content: match[1] });
         console.log(match[1]);
-        lastIndex = regex.lastIndex;
+        lastIndex = mermaidRegex.lastIndex;
     }
 
+    // Process any remaining text after the last Mermaid block
     if (lastIndex < content.length) {
-        parts.push({ type: 'text', content: content.substring(lastIndex) });
+        const remainingText = content
+            .substring(lastIndex)
+            .replace(/(\* |- |• )/g, '<br/><br/>');
+        parts.push({ type: 'text', content: remainingText });
     }
 
     responseParts.value = parts;
