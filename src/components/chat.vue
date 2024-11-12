@@ -4,7 +4,6 @@
             <span style="display: flex;justify-content: space-between;align-items: start;">
                 <textarea v-model="promptContent" @keydown.enter="sendPrompt" class="prompt-input"
                     placeholder="Ask Pundit AI" @input="resizeTextarea" ref="autoResizeTextArea"></textarea>
-                <button>Open Settings</button>
                 <img src="../assets/write.gif" alt="enter" class="enter-icon" v-show="isIconAnimated">
                 <img src="../assets/write.png" alt="enter" class="enter-icon" v-show="!isIconAnimated"
                     @click="sendPrompt">
@@ -397,5 +396,21 @@ onMounted(() => {
         top: 13.3rem;
         margin-left: 3vw;
     }
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
 }
 </style>
