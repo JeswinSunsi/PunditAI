@@ -50,9 +50,9 @@ const responseParts = ref([]);
 
 mermaid.initialize({
     startOnLoad: false,
-    securityLevel: 'loose',  // sometimes necessary to allow inline styles/scripts
-    theme: 'forest'  // replace with any theme name from the list
-});  // Initialize mermaid without auto-loading
+    securityLevel: 'loose',
+    theme: 'forest'
+});
 
 const generatePDF = async () => {
     try {
@@ -98,7 +98,7 @@ onMounted(resizeTextarea); // Resize textarea initially
 const sendPrompt = async () => {
     isIconAnimated.value = true;
     responseParts.value = [];  // Reset parts array
-    fetch('https://pundit-1e15.onrender.com/query', {
+    fetch('http://localhost:8000/query', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -148,8 +148,17 @@ const processResponse = async (content) => {
 
 const renderMermaidDiagrams = async () => {
     await nextTick();
-    // Render all diagrams with the 'mermaid' class in the DOM
-    mermaid.run(undefined, '.mermaid-diagram');
+    try {
+        const elements = document.querySelectorAll('.mermaid-diagram');
+        for (const element of elements) {
+            await mermaid.parse(element.textContent);
+        }
+        mermaid.run(undefined, '.mermaid-diagram');
+    } catch (error) {
+        console.error('Mermaid parsing error:', error);
+        const elements = document.querySelectorAll('.mermaid-diagram');
+        elements.forEach(element => element.remove());
+    }
 };
 
 const placeholderContent = ref(null)
