@@ -109,7 +109,7 @@ function copyToClipboard() {
 const sendPrompt = async () => {
     promptTextArea.value.blur()
     isIconAnimated.value = true;
-    responseParts.value = [];  // Reset parts array
+    responseParts.value = [];
     fetch('https://pundit-1e15.onrender.com/query', {
         method: 'POST',
         headers: {
