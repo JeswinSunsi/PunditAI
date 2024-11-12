@@ -19,7 +19,7 @@ const signInWithGoogle = async () => {
   try {
     const result = await signInWithPopup(auth, provider);
     console.log("Successfully signed in:", result.user);
-    await router.push('/home'); // Move this here - only redirect on success
+    await router.push('/'); // Move this here - only redirect on success
   } catch (err) {
     console.error("Error signing in:", err);
   }
