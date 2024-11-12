@@ -30,7 +30,7 @@
             <template v-for="(part, index) in responseParts" :key="index">
                 <p v-if="part.type === 'text'" v-html="part.content"></p>
                 <div v-if="part.type === 'mermaid'" class="mermaid mermaid-diagram"
-                    style="margin-top: -6rem; margin-bottom: 1rem;">{{
+                    style="margin-top: -2rem; margin-bottom: 1rem;">{{
                         part.content }}</div>
             </template>
         </div>
