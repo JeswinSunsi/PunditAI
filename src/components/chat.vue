@@ -1,11 +1,31 @@
 <template>
     <div class="main">
         <div class="prompt-box" ref="autoResizeDiv">
-            <textarea v-model="promptContent" @keydown.enter="sendPrompt" class="prompt-input"
-                placeholder="Ask Pundit AI" @input="resizeTextarea" ref="autoResizeTextArea"></textarea>
-            <img src="../assets/write.gif" alt="enter" class="enter-icon" v-show="isIconAnimated">
-            <img src="../assets/write.png" alt="enter" class="enter-icon" v-show="!isIconAnimated" @click="sendPrompt">
+            <span style="display: flex;justify-content: space-between;align-items: start;">
+                <textarea v-model="promptContent" @keydown.enter="sendPrompt" class="prompt-input"
+                    placeholder="Ask Pundit AI" @input="resizeTextarea" ref="autoResizeTextArea"></textarea>
+                <button>Open Settings</button>
+                <img src="../assets/write.gif" alt="enter" class="enter-icon" v-show="isIconAnimated">
+                <img src="../assets/write.png" alt="enter" class="enter-icon" v-show="!isIconAnimated"
+                    @click="sendPrompt">
+            </span>
+            <div class="line"></div>
+            <div class="options">
+                <div class="word-count">
+                    <h3 class="options-subtitle" style="margin-bottom: 0.2rem;margin-right: 0.5rem;">Word Count</h3>
+                    <input type="number" value="10000">
+                </div>
+                <div class="diagram-check">
+                    <input type="checkbox" checked>
+                    <h3 class="options-subtitle">Enable Diagrams</h3>
+                </div>
+                <div class="bullets-check">
+                    <input type="checkbox">
+                    <h3 class="options-subtitle">Bullet Formatting</h3>
+                </div>
+            </div>
         </div>
+
         <span class="placeholder-content fade-into-view" ref="placeholderContent" v-if="isPlaceholderVisible">
             <h1 class="placeholder-title">Hi, what can I help you with?</h1>
             <div class="placeholder-idea" @click="promptContent = 'Generate an essay on the evolution of LLMs'">Generate
@@ -94,7 +114,6 @@ const resizeTextarea = () => {
         divarea.style.height = `${textarea.scrollHeight + 20}px`;
     }
 };
-onMounted(resizeTextarea); // Resize textarea initially
 
 const sendPrompt = async () => {
     autoResizeTextArea.value.blur()
@@ -196,6 +215,57 @@ onMounted(() => {
     font-family: Poppins;
 }
 
+.options {
+    margin-top: 1.3rem;
+    height: 2.5rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 0.5rem;
+}
+
+.word-count,
+.bullets-check,
+.diagram-check {
+    display: flex;
+    margin-right: 2rem;
+    font-size: 1rem;
+    align-items: end;
+}
+
+.line {
+    background-color: rgba(19, 5, 64, 0.2);
+    padding: 0.05rem;
+    width: 100%;
+}
+
+.options-subtitle {
+    margin-right: 0.5rem;
+    margin-bottom: 0.2rem;
+}
+
+.word-count input {
+    width: 5rem;
+    padding-left: 0.5rem;
+    height: 1.7rem;
+    outline: none;
+    border: 1px solid #9d93bc;
+    border-radius: 0.2rem;
+    font-family: Poppins;
+}
+
+.diagram-check {
+    margin-right: 1rem;
+}
+
+.bullets-check input,
+.diagram-check input {
+    height: 1.2rem;
+    width: 1.2rem;
+    margin-right: 0.5rem;
+}
+
 .fade-into-view {
     opacity: 0;
     transition: opacity 1.3s ease;
@@ -226,7 +296,7 @@ onMounted(() => {
 }
 
 .placeholder-content {
-    margin-top: 3rem;
+    margin-top: 4rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -270,12 +340,11 @@ onMounted(() => {
 
 .prompt-box {
     width: 60%;
-    height: 3rem;
+    height: 8rem;
     border-radius: 0.4rem;
     border: solid 1px #130540;
     display: flex;
-    justify-content: space-between;
-    align-items: start;
+    flex-direction: column;
     padding: 0.5rem 1rem;
 }
 
@@ -286,6 +355,7 @@ onMounted(() => {
     font-size: 0.9rem;
     background-color: transparent;
     height: 2.5rem;
+    margin-top: 0.8rem;
     width: 90%;
     font-family: Poppins;
     scrollbar-width: none;
