@@ -3,7 +3,7 @@
         <div class="prompt-box" ref="autoResizeDiv">
             <span style="display: flex;justify-content: space-between;align-items: start;">
                 <textarea v-model="promptContent" @keydown.enter="sendPrompt" class="prompt-input"
-                    placeholder="Ask Pundit AI" @input="resizeTextarea" ref="autoResizeTextArea"></textarea>
+                    placeholder="Ask Pundit AI" ref="promptTextArea"></textarea>
                 <img src="../assets/write.gif" alt="enter" class="enter-icon" v-show="isIconAnimated">
                 <img src="../assets/write.png" alt="enter" class="enter-icon" v-show="!isIconAnimated"
                     @click="sendPrompt">
@@ -12,19 +12,18 @@
             <div class="options">
                 <div class="word-count">
                     <h3 class="options-subtitle" style="margin-bottom: 0.2rem;margin-right: 0.5rem;">Word Count</h3>
-                    <input type="number" value="10000">
+                    <input type="number" value="10000" v-model="wcount">
                 </div>
                 <div class="diagram-check">
-                    <input type="checkbox" checked>
+                    <input type="checkbox" v-model="diagrams">
                     <h3 class="options-subtitle">Enable Diagrams</h3>
                 </div>
                 <div class="bullets-check">
-                    <input type="checkbox">
+                    <input type="checkbox" v-model="bullets">
                     <h3 class="options-subtitle">Bullet Formatting</h3>
                 </div>
             </div>
         </div>
-
         <span class="placeholder-content fade-into-view" ref="placeholderContent" v-if="isPlaceholderVisible">
             <h1 class="placeholder-title">Hi, what can I help you with?</h1>
             <div class="placeholder-idea" @click="promptContent = 'Generate an essay on the evolution of LLMs'">Generate
@@ -49,7 +48,7 @@
             <template v-for="(part, index) in responseParts" :key="index">
                 <p v-if="part.type === 'text'" v-html="part.content"></p>
                 <div v-if="part.type === 'mermaid'" class="mermaid mermaid-diagram"
-                    style="margin-top: -2rem; margin-bottom: 1rem;">{{
+                    style="margin-top: -0.5rem; margin-bottom: 1rem;">{{
                         part.content }}</div>
             </template>
         </div>
@@ -63,10 +62,14 @@ import mermaid from 'mermaid'
 
 const isIconAnimated = ref(false);
 const isPlaceholderVisible = ref(true)
-const autoResizeTextArea = ref(null);
+const promptTextArea = ref(null);
 const autoResizeDiv = ref(null)
 const promptContent = ref("");
 const responseParts = ref([]);
+
+const wcount = ref(10000)
+const bullets = ref(false)
+const diagrams = ref(true)
 
 mermaid.initialize({
     startOnLoad: false,
@@ -103,19 +106,8 @@ function copyToClipboard() {
     navigator.clipboard.writeText(responseTextContent)
 }
 
-const resizeTextarea = () => {
-    const textarea = autoResizeTextArea.value;
-    const divarea = autoResizeDiv.value;
-    if (textarea.scrollHeight < 100) {
-        divarea.style.height = 'auto';
-        textarea.style.height = 'auto';
-        textarea.style.height = `${textarea.scrollHeight}px`;
-        divarea.style.height = `${textarea.scrollHeight + 20}px`;
-    }
-};
-
 const sendPrompt = async () => {
-    autoResizeTextArea.value.blur()
+    promptTextArea.value.blur()
     isIconAnimated.value = true;
     responseParts.value = [];  // Reset parts array
     fetch('http://localhost:8000/query', {
@@ -123,7 +115,7 @@ const sendPrompt = async () => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ prompt: promptContent.value })
+        body: JSON.stringify({ prompt: promptContent.value, word_count: `${wcount.value}`, point_checked: bullets.value, diagram_checked: diagrams.value })
     })
         .then(response => response.json())
         .then(data => {
@@ -378,6 +370,13 @@ onMounted(() => {
 
     .prompt-box {
         width: 85%;
+        height: 12.2rem;
+    }
+
+    .word-count,
+    .bullets-check,
+    .diagram-check {
+        margin-bottom: 0.3rem;
     }
 
     .response-box {
@@ -396,21 +395,29 @@ onMounted(() => {
         top: 13.3rem;
         margin-left: 3vw;
     }
-}
 
+    .options {
+        flex-direction: column;
+        align-items: start;
+    }
+}
+</style>
+
+<style>
 table {
-    border-collapse: collapse;
-    width: 100%;
+    border-collapse: collapse !important;
+    width: 100% !important;
+    margin-bottom: 2rem;
 }
 
 th,
 td {
-    border: 1px solid black;
-    padding: 8px;
-    text-align: left;
+    border: 1px solid black !important;
+    padding: 8px !important;
+    text-align: left !important;
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #f2f2f2 !important;
 }
 </style>
