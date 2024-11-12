@@ -1,8 +1,8 @@
 <template>
     <div class="main">
         <div class="prompt-box" ref="autoResizeDiv">
-            <textarea v-model="promptContent" class="prompt-input" placeholder="Ask Pundit AI" @input="resizeTextarea"
-                ref="autoResizeTextArea"></textarea>
+            <textarea v-model="promptContent" @keydown.enter="sendPrompt" class="prompt-input"
+                placeholder="Ask Pundit AI" @input="resizeTextarea" ref="autoResizeTextArea"></textarea>
             <img src="../assets/write.gif" alt="enter" class="enter-icon" v-show="isIconAnimated">
             <img src="../assets/write.png" alt="enter" class="enter-icon" v-show="!isIconAnimated" @click="sendPrompt">
         </div>
@@ -29,8 +29,9 @@
         <div class="response-box" v-if="responseParts.length">
             <template v-for="(part, index) in responseParts" :key="index">
                 <p v-if="part.type === 'text'" v-html="part.content"></p>
-                <div v-if="part.type === 'mermaid'" class="mermaid mermaid-diagram" stye="margin-bottom: 1rem;">{{
-                    part.content }}</div>
+                <div v-if="part.type === 'mermaid'" class="mermaid mermaid-diagram"
+                    style="margin-top: -6rem; margin-bottom: 1rem;">{{
+                        part.content }}</div>
             </template>
         </div>
     </div>
@@ -148,16 +149,19 @@ const processResponse = async (content) => {
 
 const renderMermaidDiagrams = async () => {
     await nextTick();
-    try {
-        const elements = document.querySelectorAll('.mermaid-diagram');
-        for (const element of elements) {
+    const elements = document.querySelectorAll('.mermaid-diagram');
+    const validElements = [];
+    for (const element of elements) {
+        try {
             await mermaid.parse(element.textContent);
+            validElements.push(element);
+        } catch (error) {
+            console.error('Mermaid parsing error:', error);
+            element.remove();
         }
-        mermaid.run(undefined, '.mermaid-diagram');
-    } catch (error) {
-        console.error('Mermaid parsing error:', error);
-        const elements = document.querySelectorAll('.mermaid-diagram');
-        elements.forEach(element => element.remove());
+    }
+    if (validElements.length > 0) {
+        await mermaid.run(undefined, '.mermaid-diagram');
     }
 };
 
