@@ -31,15 +31,10 @@
 
         <h1 class="chat-title flex-wrap-1" v-if="$route.name === 'Chat'">New Chat</h1>
         <div class="flex-wrap-2">
-            <div class="btn">
-                <h1 class="btn2" @click="logout">LogOut</h1>
+            <div class="btn" @click="$router.push('login')">
+                <h1 class="btn-1">{{ authText }}</h1>
             </div>
-            <RouterLink to="/login">
 
-                <div class="btn">
-                    <h1 class="btn-1">Login</h1>
-                </div>
-            </RouterLink>
             <RouterLink to="/chat">
                 <div class="btn" style="background-color: #130540; color: #fff;">
                     <h1 class="btn-2">Try for free</h1>
@@ -50,23 +45,32 @@
 </template>
 
 <script setup>
-import { getAuth, signOut } from "firebase/auth";
-import { useRouter } from 'vue-router';
+import { ref, watch } from 'vue';
+import { getAuth } from 'firebase/auth';
+import { useRoute } from "vue-router";
 
-const router = useRouter();
+const route = useRoute()
 
-const logout = async () => {
-  const auth = getAuth();
-  try {
-    await signOut(auth);
-    localStorage.clear();
-    router.push('/');
-    alert('Success');
-    console.log(auth.currentUser)
-  } catch (error) {
-    console.error('Logout error:', error.message);
-  }
-};
+const authText = ref("Sign In")
+
+function changeAuthText() {
+    const auth = getAuth();
+    console.log(auth.currentUser);
+    console.log("object");
+    if (auth.currentUser == null) {
+        console.log(auth.currentUser);
+        authText.value = "Sign In"
+    }
+    else { authText.value = "Sign Out" }
+}
+
+watch(
+    () => route.fullPath, // Observing the `fullPath` of the route
+    (newPath, oldPath) => {
+        console.log(`Route changed from ${oldPath} to ${newPath}`);
+        changeAuthText();
+    }
+);
 </script>
 
 <style scoped>
