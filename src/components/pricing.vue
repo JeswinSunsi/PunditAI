@@ -27,9 +27,9 @@
             </div>
             <div class="partition">
                 <h2 class="price">PRO</h2>
-                <h1 class="amount">₹49.00<span style="font-weight: 400; font-size: 0.9rem;">/month</span></h1>
+                <h1 class="amount">₹00.00<span style="font-weight: 400; font-size: 0.9rem;">/month</span></h1>
                 <h3 class="point">Best for users ready to access Pundit AI's full feature-set</h3>
-                <div class="btn">Sign up with Professional</div>
+                <div class="btn">Coming Soon</div>
                 <div class="flex-wrapper">
                     <div class="line"></div>
                     <h3 class="features">FEATURES</h3>
@@ -54,9 +54,9 @@
             </div>
             <div class="partition" style="margin-left: 1rem;">
                 <h2 class="price">ENTERPRISE</h2>
-                <h1 class="amount">₹149.00<span style="font-weight: 400; font-size: 0.9rem;">/month</span></h1>
-                <h3 class="point">Best for large teams needing constant access to Pundit AI's entire feature-set</h3>
-                <div class="btn">Access Enterprise now</div>
+                <h1 class="amount">₹00.00<span style="font-weight: 400; font-size: 0.9rem;">/month</span></h1>
+                <h3 class="point">Best for researchers needing constant access to Pundit AI's entire feature-set</h3>
+                <div class="btn">Coming Soon</div>
                 <div class="flex-wrapper">
                     <div class="line"></div>
                     <h3 class="features">FEATURES</h3>

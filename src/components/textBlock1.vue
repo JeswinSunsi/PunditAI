@@ -8,14 +8,11 @@
                     style="font-weight: 700; font-size: 1.2rem;">·</span></div>
             <div class="subtitle">Flexible pricing <span style="font-weight: 700; font-size: 1.2rem;">·</span>
             </div>
-            <div class="subtitle">Open source & self-deployable on Github <span
-                    style="font-weight: 700; font-size: 1.2rem;">·</span>
-            </div>
         </div>
         <div class="flex-wrap-2">
 
             <div class="btn">
-                <h1 class="btn-2">View Github</h1>
+                <h1 class="btn-2">Back Home</h1>
             </div>
         </div>
     </div>

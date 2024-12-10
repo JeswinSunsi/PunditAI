@@ -22,11 +22,6 @@
                     <img src="../assets/southArrow.png" alt="Navigate to Link">
                 </div>
             </a>
-            <a href="https://github.com/jeswinsunsi/punditai" target="_blank">
-                <div class="item">
-                    <h1>Github</h1>
-                </div>
-            </a>
         </div>
 
         <h1 class="chat-title flex-wrap-1" v-if="$route.name === 'Chat'">New Chat</h1>
