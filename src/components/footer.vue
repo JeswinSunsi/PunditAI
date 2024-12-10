@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        Made with ☕ & 💖 by <a href="https://github.com/jeswinsunsi" target="_blank">Tactile Studios</a>
+        Made with ☕ & 💖 by <a href="https://github.com/Tactile-Studio" target="_blank">Tactile Studios</a>
     </div>
 </template>
 
