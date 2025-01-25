@@ -61,6 +61,7 @@ Pundit AI is a revolutionary content generation pipeline that enhances any LLM's
     </td>
   </tr>
 </table>
+
 ## 📞 Contact
 
 - Jeswin Sunsi - [jeswinsunsi@gmail.com] | [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/jeswinsunsi) [![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/jeswin-sunsi-0975a324a/)
