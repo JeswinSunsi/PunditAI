@@ -36,6 +36,7 @@
         </span>
         <span class="subtopics-gen fade-into-view" v-if="isIconAnimated">
             <img src="../assets/star.png" alt="Star" class="rotate">
+            <h1 v-if="!subtopic">Building knowledge graph</h1>
             <Transition name="fade-in-place">
                 <h1 :key="subtopic">{{ subtopic }}</h1>
             </Transition>
