@@ -34,6 +34,12 @@
             </span>
 
         </span>
+        <span class="subtopics-gen fade-into-view" v-if="isIconAnimated">
+            <img src="../assets/star.png" alt="Star" class="rotate">
+            <Transition name="fade-in-place">
+                <h1 :key="subtopic">{{ subtopic }}</h1>
+            </Transition>
+        </span>
         <div class="fixed-elements" v-if="responseParts.length">
             <div class="fixed-btn" @click="copyToClipboard">
                 <img src="../assets/copy.png" alt="Copy" class="icon">
@@ -64,6 +70,10 @@ const promptTextArea = ref(null);
 const autoResizeDiv = ref(null)
 const promptContent = ref("");
 const responseParts = ref([]);
+const subtopic = ref("")
+let subtopicsList = []
+let currentIndex = 0;
+let intervalId;
 
 const wcount = ref(10000)
 const bullets = ref(false)
@@ -96,6 +106,23 @@ const generatePDF = async () => {
     }
 }
 
+const updateDisplayedSubtopic = () => {
+    console.log("Hello")
+    console.log(subtopicsList.data)
+    if (subtopicsList.data.length > 0) {
+        subtopic.value = subtopicsList.data[currentIndex];
+        console.log(subtopic.value)
+        currentIndex = (currentIndex + 1) % subtopicsList.data.length;
+    }
+};
+
+const startInterval = () => {
+    if (intervalId) {
+        clearInterval(intervalId);
+    }
+    intervalId = setInterval(updateDisplayedSubtopic, 2500);
+};
+
 function copyToClipboard() {
     const responseTextContent = responseParts.value
         .filter(part => part.type === 'text')
@@ -106,26 +133,37 @@ function copyToClipboard() {
 
 const sendPrompt = async () => {
     promptTextArea.value.blur()
+    isPlaceholderVisible.value = false;
     isIconAnimated.value = true;
     responseParts.value = [];
-    fetch('192.168.29.234:8000/query', {
+
+     fetch(`http://localhost:8000/topics?prompt=${promptContent.value}`, {
+    method: 'POST',
+    headers: {
+        'accept': 'application/json'
+    },
+    })
+    .then(response => response.json())
+    .then(data => {subtopicsList = data; currentIndex = 0; subtopic.value = subtopicsList[0]; startInterval();})
+    .catch(error => console.error('Error:', error));
+    fetch('http://localhost:8000/query', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ prompt: promptContent.value, word_count: `${wcount.value}`, point_checked: bullets.value, diagram_checked: diagrams.value })
+        body: JSON.stringify({ prompt: promptContent.value, word_count: `${wcount.value}`, complexity: "hard", diagram_checked: diagrams.value })
     })
         .then(response => response.json())
         .then(data => {
             isIconAnimated.value = false;
-            isPlaceholderVisible.value = false;
             console.log(data.content[0])
             processResponse(data.content[0]);
+            clearInterval(intervalId);
         })
         .catch(error => {
             console.error('Error:', error);
             isIconAnimated.value = false;
-        });
+        }); 
 };
 
 const processResponse = async (content) => {
@@ -227,6 +265,25 @@ onMounted(() => {
     height: 30%;
     margin-bottom: 1rem;
     width: auto;
+}
+
+.subtopics-gen {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rotate {
+    transition: transform 0.3s ease;
+    animation: rotate 3s infinite linear;
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .idea-wrapper {
@@ -365,6 +422,21 @@ onMounted(() => {
     width: 90%;
     font-family: Poppins;
     scrollbar-width: none;
+}
+
+.fade-in-place-enter-active,
+.fade-leave-active {
+  transition: opacity 2s ease;
+}
+
+.fade-in-place-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-in-place-enter-to,
+.fade-leave-from {
+  opacity: 1;
 }
 
 /* Hide scrollbar */
