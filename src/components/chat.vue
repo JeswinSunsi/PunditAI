@@ -25,16 +25,14 @@
             </div>
         </div>
         <span class="placeholder-content fade-into-view" ref="placeholderContent" v-if="isPlaceholderVisible">
+            <img src="../assets/star.png" alt="Star">
             <h1 class="placeholder-title">Hi, what can I help you with?</h1>
-            <div class="placeholder-idea" @click="promptContent = 'Generate an essay on the evolution of LLMs'">Generate
-                an essay on the evolution of LLMs</div>
-            <div class="placeholder-idea"
-                @click="promptContent = 'Produce a report on the current geopolitical landscape'">Produce a report on
-                the current geopolitical landscape</div>
-            <div class="placeholder-idea"
-                @click="promptContent = 'Write an article about the history of medieval trade routes between Asia & Europe'">
-                Write an article about the history of medieval trade routes between Asia & Europe
-            </div>
+            <span class="idea-wrapper">
+                <img @click="promptContent = 'Generate an essay on the evolution of LLMs'" src="../assets/place1.png" class="placeholder-idea">
+                <img @click="promptContent = 'Generate an essay on the evolution of LLMs'" src="../assets/place2.png" class="placeholder-idea">
+                <img @click="promptContent = 'Generate an essay on the evolution of LLMs'" src="../assets/place3.png" class="placeholder-idea">
+            </span>
+
         </span>
         <div class="fixed-elements" v-if="responseParts.length">
             <div class="fixed-btn" @click="copyToClipboard">
@@ -110,7 +108,7 @@ const sendPrompt = async () => {
     promptTextArea.value.blur()
     isIconAnimated.value = true;
     responseParts.value = [];
-    fetch('https://pundit-1e15.onrender.com/query', {
+    fetch('192.168.29.234:8000/query', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -225,6 +223,19 @@ onMounted(() => {
     align-items: end;
 }
 
+.placeholder-content img {
+    height: 30%;
+    margin-bottom: 1rem;
+    width: auto;
+}
+
+.idea-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    padding: 0rem 20%;
+}
+
 .line {
     background-color: rgba(19, 5, 64, 0.2);
     padding: 0.05rem;
@@ -258,10 +269,19 @@ onMounted(() => {
 }
 
 .fade-into-view {
-    opacity: 0;
-    transition: opacity 1.3s ease;
+    animation: floatIn 1.7s ease forwards;
 }
 
+@keyframes floatIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 .fixed-elements {
     position: fixed;
     top: 29.2vh;
@@ -294,23 +314,18 @@ onMounted(() => {
     align-items: center;
 }
 
-.placeholder-idea {
-    cursor: pointer;
-    color: rgba(19, 5, 64, 0.8);
-    border: 1px solid rgba(19, 5, 64, 0.2);
-    border-radius: 0.3rem;
-    padding: 0.8rem 1rem;
-    width: 40vw;
-    line-height: 1.3rem;
-    text-align: center;
-    margin-bottom: 1rem;
-}
-
 .placeholder-title {
     margin-bottom: 1.5rem;
     font-size: 2rem;
     font-weight: 500;
     color: #130540;
+}
+
+.placeholder-idea {
+    max-height: 10rem; 
+    width: auto; border: 1px solid rgba(19, 5, 64, 0.2);
+    border-radius: 0.3rem; cursor: pointer;
+    margin-right: 1rem;
 }
 
 .response-box {
