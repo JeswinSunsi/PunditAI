@@ -1,7 +1,41 @@
 <template>
     <div class="main">
-        <div class="prompt-box" ref="autoResizeDiv">
-            <span style="display: flex;justify-content: space-between;align-items: start;">
+        <div class="sidebar">
+            <div class="sidebar-icons-wrapper">
+                <img src="../assets/sidebar.png" alt="" class="s-icon">
+                <img src="../assets/search.png" alt="" class="s-icon">
+            </div>
+            <h1 class="s-heading">Recents</h1>
+            <div class="s-item-box">
+                Write a report about the Manus Agentic AI 
+            </div>
+            <div class="s-item-box">
+                Write a draft paper investivating the neuroBERT model 
+            </div>
+            <div class="s-item-box">
+                Analysis on hydral pipe system subarrays 
+            </div>
+            <h1 class="s-heading" style="margin-top: 2.5rem;">Previous Week</h1>
+            <div class="s-item-box">
+                Sorting algorithms in detail 
+            </div>
+            <div class="s-item-box">
+                Chapter on Bose Einstein condensate 
+            </div>
+            <div class="s-item-box">
+                Write a chapter on condensed matter physics 
+            </div>
+            <h1 class="s-heading" style="margin-top: 2.5rem;">A long time back</h1>
+            <div class="s-item-box">
+                Full analysis of the Hindenberg Adani report 
+            </div>
+            <div class="s-item-box">
+                Business Intelligence - Agentic AI for customer acquisition
+            </div>
+        </div>
+        <span class="wrapper">
+            <div class="prompt-box" ref="autoResizeDiv">
+            <span style="display: flex; justify-content:space-between; align-items: start;">
                 <textarea v-model="promptContent" @keydown.enter="sendPrompt" class="prompt-input"
                     placeholder="Ask Pundit AI" ref="promptTextArea"></textarea>
                 <img src="../assets/write.gif" alt="enter" class="enter-icon" v-show="isIconAnimated">
@@ -29,8 +63,8 @@
             <h1 class="placeholder-title">Hi, what can I help you with?</h1>
             <span class="idea-wrapper">
                 <img @click="promptContent = 'Generate an essay on the evolution of LLMs'" src="../assets/place1.png" class="placeholder-idea">
-                <img @click="promptContent = 'Generate an essay on the evolution of LLMs'" src="../assets/place2.png" class="placeholder-idea">
-                <img @click="promptContent = 'Generate an essay on the evolution of LLMs'" src="../assets/place3.png" class="placeholder-idea">
+                <img @click="promptContent = 'Produce a report on the geopolitcal landscape'" src="../assets/place2.png" class="placeholder-idea">
+                <img @click="promptContent = 'Write an article about the latest advancements in AI'" src="../assets/place3.png" class="placeholder-idea">
             </span>
 
         </span>
@@ -57,6 +91,7 @@
                         part.content }}</div>
             </template>
         </div>
+        </span>
     </div>
 </template>
 
@@ -86,7 +121,7 @@ mermaid.initialize({
     theme: 'forest'
 });
 
-const generatePDF = async () => {
+/* const generatePDF = async () => {
     try {
         const doc = new jsPDF()
         doc.setFontSize(12)
@@ -104,6 +139,40 @@ const generatePDF = async () => {
         doc.save("pundit.pdf")
     } catch (error) {
         console.error('Error generating PDF:', error)
+    }
+} */
+
+const generatePDF = async () => {
+    try {
+        const formData = new FormData();
+        formData.append('file', audioBlob.value, 'recording.wav');
+        formData.append('transcript', transcript.value);
+        PDFLoading.value = true;
+        const response = await fetch('http://localhost:8000/pdf', {
+            method: 'GET',
+        });
+
+        if (response.ok) {
+            const blob = await response.blob();
+
+            const downloadUrl = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = 'analysis.pdf';
+            link.target = '_blank';
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Clean up the URL object
+            window.URL.revokeObjectURL(downloadUrl);
+        } else {
+            const errorText = await response.text();
+            console.log(errorText)
+        }
+    } catch (error) {
+        console.error('Error submitting recording:', error);
     }
 }
 
@@ -237,11 +306,16 @@ onMounted(() => {
     height: 100%;
     width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem 1rem;
     font-family: Poppins;
 }
+
+.wrapper {
+    width: 100%;
+    padding-top: 1rem;
+    padding-left: 16%;  
+    display: flex;
+    flex-direction: column;
+align-items: center;}
 
 .options {
     margin-top: 1.3rem;
@@ -251,6 +325,48 @@ onMounted(() => {
     align-items: center;
     justify-content: start;
     padding: 0.5rem;
+}
+
+.sidebar {
+    height: 100vh;
+    position: fixed; 
+    border-right: 1px solid black; 
+    width: 17%;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1rem;
+}
+
+.s-heading {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.sidebar-icons-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.s-item-box {
+    cursor: pointer;
+    border: 1px solid rgba(18, 7, 53, 0.2);
+    width: 100%;
+    margin-top: 0.6rem;
+    padding: 0.4rem 0.6rem;
+    color: rgba(18, 10, 44, 0.8);
+    border-radius: 0.3rem;
+    line-height: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.s-item-box:hover{
+    padding: 1rem 0.6rem;
+}
+
+.s-icon {
+    height: 1.7rem;
+    width: auto;
 }
 
 .word-count,
@@ -263,7 +379,7 @@ onMounted(() => {
 }
 
 .placeholder-content img {
-    height: 30%;
+    height: 110%;
     margin-bottom: 1rem;
     width: auto;
 }
@@ -373,7 +489,7 @@ onMounted(() => {
 }
 
 .placeholder-title {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
     font-size: 2rem;
     font-weight: 500;
     color: #130540;

@@ -91,6 +91,7 @@ img {
 
 .chat-title {
     font-weight: 700;
+    margin-left: 8%;
     font-size: 1.2rem;
 }
 
