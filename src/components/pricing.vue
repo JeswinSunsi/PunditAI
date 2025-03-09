@@ -114,6 +114,8 @@
 
 .feature-wrapper {
     margin-top: 0.8rem;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
     display: flex;
     align-items: center;
 }
