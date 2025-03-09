@@ -160,6 +160,7 @@
     border-radius: 0.75rem;
     border: 1px solid #13051f;
     padding: 2rem 1rem;
+    background-color: #fff;
 }
 
 .price {

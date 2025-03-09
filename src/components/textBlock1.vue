@@ -29,22 +29,27 @@
     flex-direction: column;
     font-family: Poppins;
     padding-right: 10vw;
-    margin-top: 5rem;
+    margin-top: 7rem;
 }
 
 .title {
-    font-size: 2rem;
+    font-size: 2.5rem;
     width: 40vw;
     text-align: right;
     font-weight: 600;
     line-height: 2.5rem;
 }
 
+.subtitles {
+    margin-top: 1.5rem;
+}
+
 .subtitle {
     text-align: right;
     width: 50vw;
-    line-height: 1.5rem;
+    line-height: 1.8rem;
     margin-top: 0.7rem;
+    font-size: 1.3rem;
 }
 
 .flex-wrap-2 {
