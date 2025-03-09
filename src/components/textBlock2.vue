@@ -26,7 +26,7 @@
     flex-direction: column;
     font-family: Poppins;
     padding-left: 10vw;
-    margin-top: 5rem;
+    margin-top: 8rem;
 }
 
 .title {
