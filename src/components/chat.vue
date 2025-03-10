@@ -144,10 +144,6 @@ mermaid.initialize({
 
 const generatePDF = async () => {
     try {
-        const formData = new FormData();
-        formData.append('file', audioBlob.value, 'recording.wav');
-        formData.append('transcript', transcript.value);
-        PDFLoading.value = true;
         const response = await fetch('http://localhost:8000/pdf', {
             method: 'GET',
         });
@@ -216,12 +212,12 @@ const sendPrompt = async () => {
     .then(response => response.json())
     .then(data => {subtopicsList = data; currentIndex = 0; subtopic.value = subtopicsList[0]; startInterval();})
     .catch(error => console.error('Error:', error));
-    fetch('http://localhost:8000/query', {
+    fetch('http://localhost:8000/rp', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ prompt: promptContent.value, word_count: `${wcount.value}`, complexity: "hard", diagram_checked: diagrams.value })
+        body: JSON.stringify({ prompt: promptContent.value, word_count: `${wcount.value}`, diagram_checked: diagrams.value })
     })
         .then(response => response.json())
         .then(data => {
@@ -258,7 +254,14 @@ const processResponse = async (content) => {
         }
 
         // Add the Mermaid block without modifying its content
-        parts.push({ type: 'mermaid', content: match[1] });
+        let textToPush = match[1].replace('Here is the Mermaid code for a flowchart:', '')
+        textToPush = match[1].replace('Here is the Mermaid code for a mind map:', '')
+        textToPush = match[1].replace('Here is the generated Mermaid flowchart code:', '')
+        textToPush = textToPush.replace("Here is the generated Mermaid code for a flowchart:", '')
+        textToPush = textToPush.replace("Here is a Mermaid flowchart for the given paragraph:", '')
+        textToPush = textToPush.replace("Here is the generated Mermaid code for a mind map:", '')
+        textToPush = textToPush.replace("Here is the Mermaid flowchart code:", '')
+        parts.push({ type: 'mermaid', content: textToPush.replace('Here is the Mermaid flowchart code for the given paragraph:', '') });
         console.log(match[1]);
         lastIndex = mermaidRegex.lastIndex;
     }
@@ -509,6 +512,7 @@ align-items: center;}
     color: #130540;
     padding: 1.5rem;
     width: 60%;
+    font-size: 500 !important;
     line-height: 1.7rem;
 }
 
@@ -572,9 +576,27 @@ align-items: center;}
         padding: 1rem 0rem;
     }
 
+    .wrapper {
+        padding-left: 0;
+    }
+
     .prompt-box {
         width: 85%;
         height: 12.2rem;
+    }
+
+    .idea-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .placeholder-title {
+        font-size: 4vw;
+    }
+
+    .idea-wrapper img {
+        height: auto;
+        width: 70vw;
     }
 
     .word-count,
@@ -598,6 +620,10 @@ align-items: center;}
     .fixed-elements {
         top: 13.3rem;
         margin-left: 3vw;
+    }
+
+    .sidebar {
+        display: none;
     }
 
     .options {
