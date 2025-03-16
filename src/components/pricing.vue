@@ -114,6 +114,8 @@
 
 .feature-wrapper {
     margin-top: 0.8rem;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
     display: flex;
     align-items: center;
 }
@@ -160,6 +162,7 @@
     border-radius: 0.75rem;
     border: 1px solid #13051f;
     padding: 2rem 1rem;
+    background-color: #fff;
 }
 
 .price {

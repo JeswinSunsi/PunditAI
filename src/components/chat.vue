@@ -1,7 +1,41 @@
 <template>
     <div class="main">
-        <div class="prompt-box" ref="autoResizeDiv">
-            <span style="display: flex;justify-content: space-between;align-items: start;">
+        <div class="sidebar">
+            <div class="sidebar-icons-wrapper">
+                <img src="../assets/sidebar.png" alt="" class="s-icon">
+                <img src="../assets/search.png" alt="" class="s-icon">
+            </div>
+            <h1 class="s-heading">Recents</h1>
+            <div class="s-item-box">
+                Write a report about the Manus Agentic AI 
+            </div>
+            <div class="s-item-box">
+                Write a draft paper investivating the neuroBERT model 
+            </div>
+            <div class="s-item-box">
+                Analysis on hydral pipe system subarrays 
+            </div>
+            <h1 class="s-heading" style="margin-top: 2.5rem;">Previous Week</h1>
+            <div class="s-item-box">
+                Sorting algorithms in detail 
+            </div>
+            <div class="s-item-box">
+                Chapter on Bose Einstein condensate 
+            </div>
+            <div class="s-item-box">
+                Write a chapter on condensed matter physics 
+            </div>
+            <h1 class="s-heading" style="margin-top: 2.5rem;">A long time back</h1>
+            <div class="s-item-box">
+                Full analysis of the Hindenberg Adani report 
+            </div>
+            <div class="s-item-box">
+                Business Intelligence - Agentic AI for customer acquisition
+            </div>
+        </div>
+        <span class="wrapper">
+            <div class="prompt-box" ref="autoResizeDiv">
+            <span style="display: flex; justify-content:space-between; align-items: start;">
                 <textarea v-model="promptContent" @keydown.enter="sendPrompt" class="prompt-input"
                     placeholder="Ask Pundit AI" ref="promptTextArea"></textarea>
                 <img src="../assets/write.gif" alt="enter" class="enter-icon" v-show="isIconAnimated">
@@ -25,16 +59,21 @@
             </div>
         </div>
         <span class="placeholder-content fade-into-view" ref="placeholderContent" v-if="isPlaceholderVisible">
+            <img src="../assets/star.png" alt="Star">
             <h1 class="placeholder-title">Hi, what can I help you with?</h1>
-            <div class="placeholder-idea" @click="promptContent = 'Generate an essay on the evolution of LLMs'">Generate
-                an essay on the evolution of LLMs</div>
-            <div class="placeholder-idea"
-                @click="promptContent = 'Produce a report on the current geopolitical landscape'">Produce a report on
-                the current geopolitical landscape</div>
-            <div class="placeholder-idea"
-                @click="promptContent = 'Write an article about the history of medieval trade routes between Asia & Europe'">
-                Write an article about the history of medieval trade routes between Asia & Europe
-            </div>
+            <span class="idea-wrapper">
+                <img @click="promptContent = 'Generate an essay on the evolution of LLMs'" src="../assets/place1.png" class="placeholder-idea">
+                <img @click="promptContent = 'Produce a report on the geopolitcal landscape'" src="../assets/place2.png" class="placeholder-idea">
+                <img @click="promptContent = 'Write an article about the latest advancements in AI'" src="../assets/place3.png" class="placeholder-idea">
+            </span>
+
+        </span>
+        <span class="subtopics-gen fade-into-view" v-if="isIconAnimated">
+            <img src="../assets/star.png" alt="Star" class="rotate">
+            <h1 v-if="!subtopic">Building knowledge graph</h1>
+            <Transition name="fade-in-place">
+                <h1 :key="subtopic">{{ subtopic }}</h1>
+            </Transition>
         </span>
         <div class="fixed-elements" v-if="responseParts.length">
             <div class="fixed-btn" @click="copyToClipboard">
@@ -52,6 +91,7 @@
                         part.content }}</div>
             </template>
         </div>
+        </span>
     </div>
 </template>
 
@@ -66,6 +106,10 @@ const promptTextArea = ref(null);
 const autoResizeDiv = ref(null)
 const promptContent = ref("");
 const responseParts = ref([]);
+const subtopic = ref("")
+let subtopicsList = []
+let currentIndex = 0;
+let intervalId;
 
 const wcount = ref(10000)
 const bullets = ref(false)
@@ -77,7 +121,7 @@ mermaid.initialize({
     theme: 'forest'
 });
 
-const generatePDF = async () => {
+/* const generatePDF = async () => {
     try {
         const doc = new jsPDF()
         doc.setFontSize(12)
@@ -96,7 +140,54 @@ const generatePDF = async () => {
     } catch (error) {
         console.error('Error generating PDF:', error)
     }
+} */
+
+const generatePDF = async () => {
+    try {
+        const response = await fetch('http://localhost:8000/pdf', {
+            method: 'GET',
+        });
+
+        if (response.ok) {
+            const blob = await response.blob();
+
+            const downloadUrl = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = 'analysis.pdf';
+            link.target = '_blank';
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Clean up the URL object
+            window.URL.revokeObjectURL(downloadUrl);
+        } else {
+            const errorText = await response.text();
+            console.log(errorText)
+        }
+    } catch (error) {
+        console.error('Error submitting recording:', error);
+    }
 }
+
+const updateDisplayedSubtopic = () => {
+    console.log("Hello")
+    console.log(subtopicsList.data)
+    if (subtopicsList.data.length > 0) {
+        subtopic.value = subtopicsList.data[currentIndex];
+        console.log(subtopic.value)
+        currentIndex = (currentIndex + 1) % subtopicsList.data.length;
+    }
+};
+
+const startInterval = () => {
+    if (intervalId) {
+        clearInterval(intervalId);
+    }
+    intervalId = setInterval(updateDisplayedSubtopic, 2500);
+};
 
 function copyToClipboard() {
     const responseTextContent = responseParts.value
@@ -108,26 +199,37 @@ function copyToClipboard() {
 
 const sendPrompt = async () => {
     promptTextArea.value.blur()
+    isPlaceholderVisible.value = false;
     isIconAnimated.value = true;
     responseParts.value = [];
-    fetch('https://pundit-1e15.onrender.com/query', {
+
+     fetch(`http://localhost:8000/topics?prompt=${promptContent.value}`, {
+    method: 'POST',
+    headers: {
+        'accept': 'application/json'
+    },
+    })
+    .then(response => response.json())
+    .then(data => {subtopicsList = data; currentIndex = 0; subtopic.value = subtopicsList[0]; startInterval();})
+    .catch(error => console.error('Error:', error));
+    fetch('http://localhost:8000/rp', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ prompt: promptContent.value, word_count: `${wcount.value}`, point_checked: bullets.value, diagram_checked: diagrams.value })
+        body: JSON.stringify({ prompt: promptContent.value, word_count: `${wcount.value}`, diagram_checked: diagrams.value })
     })
         .then(response => response.json())
         .then(data => {
             isIconAnimated.value = false;
-            isPlaceholderVisible.value = false;
             console.log(data.content[0])
             processResponse(data.content[0]);
+            clearInterval(intervalId);
         })
         .catch(error => {
             console.error('Error:', error);
             isIconAnimated.value = false;
-        });
+        }); 
 };
 
 const processResponse = async (content) => {
@@ -152,7 +254,14 @@ const processResponse = async (content) => {
         }
 
         // Add the Mermaid block without modifying its content
-        parts.push({ type: 'mermaid', content: match[1] });
+        let textToPush = match[1].replace('Here is the Mermaid code for a flowchart:', '')
+        textToPush = match[1].replace('Here is the Mermaid code for a mind map:', '')
+        textToPush = match[1].replace('Here is the generated Mermaid flowchart code:', '')
+        textToPush = textToPush.replace("Here is the generated Mermaid code for a flowchart:", '')
+        textToPush = textToPush.replace("Here is a Mermaid flowchart for the given paragraph:", '')
+        textToPush = textToPush.replace("Here is the generated Mermaid code for a mind map:", '')
+        textToPush = textToPush.replace("Here is the Mermaid flowchart code:", '')
+        parts.push({ type: 'mermaid', content: textToPush.replace('Here is the Mermaid flowchart code for the given paragraph:', '') });
         console.log(match[1]);
         lastIndex = mermaidRegex.lastIndex;
     }
@@ -200,11 +309,16 @@ onMounted(() => {
     height: 100%;
     width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem 1rem;
     font-family: Poppins;
 }
+
+.wrapper {
+    width: 100%;
+    padding-top: 1rem;
+    padding-left: 16%;  
+    display: flex;
+    flex-direction: column;
+align-items: center;}
 
 .options {
     margin-top: 1.3rem;
@@ -216,6 +330,48 @@ onMounted(() => {
     padding: 0.5rem;
 }
 
+.sidebar {
+    height: 100vh;
+    position: fixed; 
+    border-right: 1px solid black; 
+    width: 17%;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1rem;
+}
+
+.s-heading {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.sidebar-icons-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.s-item-box {
+    cursor: pointer;
+    border: 1px solid rgba(18, 7, 53, 0.2);
+    width: 100%;
+    margin-top: 0.6rem;
+    padding: 0.4rem 0.6rem;
+    color: rgba(18, 10, 44, 0.8);
+    border-radius: 0.3rem;
+    line-height: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.s-item-box:hover{
+    padding: 1rem 0.6rem;
+}
+
+.s-icon {
+    height: 1.7rem;
+    width: auto;
+}
+
 .word-count,
 .bullets-check,
 .diagram-check {
@@ -223,6 +379,38 @@ onMounted(() => {
     margin-right: 2rem;
     font-size: 1rem;
     align-items: end;
+}
+
+.placeholder-content img {
+    height: 110%;
+    margin-bottom: 1rem;
+    width: auto;
+}
+
+.subtopics-gen {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rotate {
+    transition: transform 0.3s ease;
+    animation: rotate 3s infinite linear;
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.idea-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    padding: 0rem 20%;
 }
 
 .line {
@@ -258,10 +446,19 @@ onMounted(() => {
 }
 
 .fade-into-view {
-    opacity: 0;
-    transition: opacity 1.3s ease;
+    animation: floatIn 1.7s ease forwards;
 }
 
+@keyframes floatIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 .fixed-elements {
     position: fixed;
     top: 29.2vh;
@@ -294,23 +491,18 @@ onMounted(() => {
     align-items: center;
 }
 
-.placeholder-idea {
-    cursor: pointer;
-    color: rgba(19, 5, 64, 0.8);
-    border: 1px solid rgba(19, 5, 64, 0.2);
-    border-radius: 0.3rem;
-    padding: 0.8rem 1rem;
-    width: 40vw;
-    line-height: 1.3rem;
-    text-align: center;
-    margin-bottom: 1rem;
-}
-
 .placeholder-title {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
     font-size: 2rem;
     font-weight: 500;
     color: #130540;
+}
+
+.placeholder-idea {
+    max-height: 10rem; 
+    width: auto; border: 1px solid rgba(19, 5, 64, 0.2);
+    border-radius: 0.3rem; cursor: pointer;
+    margin-right: 1rem;
 }
 
 .response-box {
@@ -320,6 +512,7 @@ onMounted(() => {
     color: #130540;
     padding: 1.5rem;
     width: 60%;
+    font-size: 500 !important;
     line-height: 1.7rem;
 }
 
@@ -352,6 +545,21 @@ onMounted(() => {
     scrollbar-width: none;
 }
 
+.fade-in-place-enter-active,
+.fade-leave-active {
+  transition: opacity 2s ease;
+}
+
+.fade-in-place-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-in-place-enter-to,
+.fade-leave-from {
+  opacity: 1;
+}
+
 /* Hide scrollbar */
 .prompt-input::-webkit-scrollbar {
     width: 0;
@@ -368,9 +576,27 @@ onMounted(() => {
         padding: 1rem 0rem;
     }
 
+    .wrapper {
+        padding-left: 0;
+    }
+
     .prompt-box {
         width: 85%;
         height: 12.2rem;
+    }
+
+    .idea-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .placeholder-title {
+        font-size: 4vw;
+    }
+
+    .idea-wrapper img {
+        height: auto;
+        width: 70vw;
     }
 
     .word-count,
@@ -394,6 +620,10 @@ onMounted(() => {
     .fixed-elements {
         top: 13.3rem;
         margin-left: 3vw;
+    }
+
+    .sidebar {
+        display: none;
     }
 
     .options {

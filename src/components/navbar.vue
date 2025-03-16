@@ -41,13 +41,14 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-import { getAuth } from 'firebase/auth';
+//import { getAuth } from 'firebase/auth';
 import { useRoute } from "vue-router";
 
 const route = useRoute()
 
 const authText = ref("Sign In")
 
+/* 
 function changeAuthText() {
     const auth = getAuth();
     console.log(auth.currentUser);
@@ -65,7 +66,7 @@ watch(
         console.log(`Route changed from ${oldPath} to ${newPath}`);
         changeAuthText();
     }
-);
+); */
 </script>
 
 <style scoped>
@@ -90,6 +91,7 @@ img {
 
 .chat-title {
     font-weight: 700;
+    margin-left: 8%;
     font-size: 1.2rem;
 }
 

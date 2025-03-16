@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <h1 class="hero-heading">Answers that go the distance </h1>
+    <h1 class="hero-heading">Answers that <span style="cursor: pointer;">go</span> the distance </h1>
     <h2 class="hero-subheading">Generate 10,000+ words from a single prompt, designed for thinkers & creators.
     </h2>
     <div class="flex-wrap-2">
@@ -34,7 +34,7 @@
 }
 
 .hero-heading {
-  font-size: 3.5rem;
+  font-size: 4.5rem;
   font-weight: 800;
   color: #130540;
   text-align: center;
@@ -46,7 +46,7 @@
   color: rgba(19, 5, 64, 0.8);
   text-align: center;
   width: 40vw;
-  line-height: 1.5rem;
+  line-height: 2.5rem;
 }
 
 .flex-wrap-2 {
@@ -55,7 +55,7 @@
 
 .flex-wrap-2 div {
   margin-top: 5vh;
-  padding: 0.6rem 1.3rem;
+  padding: 1.2rem 1.7rem;
   cursor: pointer;
   margin-right: 0.6rem;
   border-radius: 0.3rem;

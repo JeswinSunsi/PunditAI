@@ -7,13 +7,14 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-import { auth } from "../firebase";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { getAuth, signOut } from "firebase/auth";
+//import { auth } from "../firebase";
+//import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+//import { getAuth, signOut } from "firebase/auth";
 import { useRouter } from "vue-router";
 
 const router = useRouter()
 
+/* 
 const signInWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
   try {
@@ -46,7 +47,7 @@ const authenticate = () => {
   }
 }
 
-onMounted(() => { authenticate(); })
+onMounted(() => { authenticate(); }) */
 </script>
 
 <style scoped></style>
