@@ -144,7 +144,7 @@ mermaid.initialize({
 
 const generatePDF = async () => {
     try {
-        const response = await fetch('http://localhost:8000/pdf', {
+        const response = await fetch('https://pundit-2-0.onrender.com/pdf', {
             method: 'GET',
         });
 
@@ -203,7 +203,7 @@ const sendPrompt = async () => {
     isIconAnimated.value = true;
     responseParts.value = [];
 
-     fetch(`http://localhost:8000/topics?prompt=${promptContent.value}`, {
+     fetch(`https://pundit-2-0.onrender.com/topics?prompt=${promptContent.value}`, {
     method: 'POST',
     headers: {
         'accept': 'application/json'
@@ -212,7 +212,7 @@ const sendPrompt = async () => {
     .then(response => response.json())
     .then(data => {subtopicsList = data; currentIndex = 0; subtopic.value = subtopicsList[0]; startInterval();})
     .catch(error => console.error('Error:', error));
-    fetch('http://localhost:8000/rp', {
+    fetch('https://pundit-2-0.onrender.com/rp', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
